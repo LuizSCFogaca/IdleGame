@@ -99,21 +99,18 @@ function atualizarTela(){
     document.getElementById('upg-0-level').innerText = `(Level: ${upg0.upgradeLevel}) `;
     document.getElementById('upg-0-bonus').innerText = `x${upg0.upgradeMultiplier} Produção`;
     document.getElementById('upg-0-cost').innerText = `Custo: ${Math.ceil(upg0.upgradePrice)}`;
-    document.getElementById('upg-0-req').innerText = `Req: ${10 * Math.pow(2, upg0.upgradeLevel)} Gen${0+1}`;
 
     // --- Atualizar Botão Upgrade 1 ---
     let upg1 = generators[1];
     document.getElementById('upg-1-level').innerText = `(Level: ${upg1.upgradeLevel})`;
     document.getElementById('upg-1-bonus').innerText = `x${upg1.upgradeMultiplier} Produção`;
     document.getElementById('upg-1-cost').innerText = `Custo: ${Math.ceil(upg1.upgradePrice)}`;
-    document.getElementById('upg-1-req').innerText = `Req: ${10 * Math.pow(2, upg1.upgradeLevel)} Gen${1+1}`;
 
     // --- Atualizar Botão Upgrade 2 ---
     let upg2 = generators[2];
     document.getElementById('upg-2-level').innerText = `(Level: ${upg2.upgradeLevel})`;
     document.getElementById('upg-2-bonus').innerText = `x${upg2.upgradeMultiplier} Produção`;
     document.getElementById('upg-2-cost').innerText = `Custo: ${Math.ceil(upg2.upgradePrice)}`;
-    document.getElementById('upg-2-req').innerText = `Req: ${10 * Math.pow(2, upg2.upgradeLevel)} Gen${2+1}`;
 }
 
 function recalcularMPS() {
@@ -140,7 +137,7 @@ function buyGenerator(index){
 
 function buyUpgradeGenerator(index){
     let g = generators[index];
-    if(money >= g.upgradePrice && g.quantidade >= (10 * (Math.pow(2, g.upgradeLevel)-1))){ 
+    if(money >= g.upgradePrice){ 
         money -= g.custoAtual;
         g.upgradeLevel++;
         g.upgradePrice = Math.round(g.upgradePrice * Math.pow(2.5, g.upgradeLevel));
