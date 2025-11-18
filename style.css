@@ -1,186 +1,315 @@
-/* Estilo global e tema escuro */
+/* --- Estilos Base e Reset --- */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #121212;
+    background-color: #121212; /* Fundo escuro */
     color: #e0e0e0;
     margin: 0;
-    padding: 20px;
-    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Ocupa a altura total da tela */
 }
 
-/* Container principal do jogo */
-.game-container {
-    width: 100%;
-    max-width: 1400px;
-    margin: 0 auto;
-    background-color: #1e1e1e;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    padding: 20px;
+/* --- Wrapper Principal do Jogo --- */
+.game-wrapper {
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+    width: 95%;
+    max-width: 1600px; /* Limite de largura para o jogo */
+    display: flex;
+    flex-direction: column; /* Cabeçalho em cima, conteúdo embaixo */
+    overflow: hidden; /* Garante que nada transborde */
+    min-height: 90vh; /* Altura mínima para o wrapper do jogo */
 }
 
-/* Display de dinheiro e MPS - Center Top */
-.stats-container {
+/* --- Header (Dinheiro e MPS) --- */
+.header-display {
+    background-color: #333; /* Fundo mais escuro para o header */
+    color: #e0e0e0;
     text-align: center;
-    border-bottom: 2px solid #444;
-    padding-bottom: 15px;
-    margin-bottom: 30px;
+    padding: 15px 20px;
+    border-bottom: 1px solid #444;
 }
 
-.stats-container h1 {
+.header-display h1 {
     margin: 0;
-    font-size: 2.5em;
-    color: #4CAF50; /* Verde */
-    text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+    font-size: 3em;
+    color: #4CAF50; /* Verde vibrante para o dinheiro */
 }
 
-.stats-container p {
+.header-display p {
     margin: 5px 0 0;
-    font-size: 1.2em;
+    font-size: 1.4em;
     color: #aaa;
 }
 
-/* Main Grid Layout - Generators Left, Upgrades Right */
-.main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 30px;
+/* --- Layout Principal (Sidebar + Conteúdo) --- */
+.main-layout-container {
+    display: flex; /* Sidebar e Content lado a lado */
+    flex-grow: 1; /* Faz esse container ocupar o espaço restante */
 }
 
-/* Generators Container - Left Side */
-.generators-container {
-    padding: 0;
+/* --- Sidebar de Navegação --- */
+.sidebar {
+    width: 200px; /* Largura fixa da sidebar */
+    background-color: #2b2b2b;
+    padding: 15px 0;
+    border-right: 1px solid #444;
+    display: flex;
+    flex-direction: column; /* Botões um abaixo do outro */
 }
 
-.generators-container h2 {
+.nav-button {
+    background-color: transparent;
+    border: none;
     color: #e0e0e0;
-    margin-bottom: 15px;
-    font-size: 1.8em;
+    padding: 15px 20px;
     text-align: left;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-/* Upgrades Container - Right Side */
-.upgrades-container {
-    padding: 0;
+.nav-button:hover {
+    background-color: #444;
+    color: #fff;
 }
 
-.upgrades-container h2 {
-    color: #FFD700; /* Dourado para upgrades */
-    margin-bottom: 15px;
-    font-size: 1.8em;
-    text-align: left;
+.nav-button.active {
+    background-color: #4CAF50; /* Cor ativa do botão (verde) */
+    color: #1a1a1a;
+    font-weight: bold;
+    border-left: 5px solid #FFD700; /* Destaque lateral */
 }
 
-/* Botões dos geradores */
-.generator-btn {
-    display: block;
+/* --- Área de Conteúdo --- */
+.content-area {
+    flex-grow: 1; /* Ocupa o restante do espaço */
+    padding: 20px;
+    overflow-y: auto; /* Adiciona scroll se o conteúdo for muito grande */
+}
+
+.content-section {
+    margin-bottom: 20px;
+}
+
+.content-section h2 {
+    color: #FFD700; /* Títulos em dourado */
+    font-size: 2em;
+    margin-top: 0;
+    margin-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid #555;
+    padding-bottom: 10px;
+}
+
+/* --- Esconder Seções --- */
+.hidden {
+    display: none !important; /* !important para forçar a sobrescrever outros estilos */
+}
+
+/* --- Estilos Comuns para Botões (Gerador e Upgrade) --- */
+.generator-btn, .upgrade-btn {
+    display: flex;
+    flex-direction: column; /* Conteúdo interno um abaixo do outro */
     width: 100%;
     padding: 15px;
     margin-bottom: 10px;
-    
-    font-size: 1.1em;
+    font-size: 1em;
     font-weight: bold;
     text-align: left;
-    
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    position: relative; /* Para a barra lateral de Qtd */
+    overflow: hidden;
+}
+
+.generator-btn > div:first-child, .upgrade-btn > div:first-child {
+    font-size: 1.2em;
+    margin-bottom: 5px;
+}
+
+.btn-line-stats, .btn-line-cost {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-weight: normal;
+    font-size: 0.95em;
+    margin-top: 2px;
+}
+
+.btn-line-cost {
+    font-weight: bold;
+    margin-top: 8px;
+    border-top: 1px dashed #555;
+    padding-top: 5px;
+}
+
+/* Estilos específicos para os botões de Geradores */
+.generators-grid {
+    display: grid;
+    gap: 10px;
+    /* Para grid de 2 colunas, se você quiser: */
+    /* grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); */ 
+}
+.generator-btn {
     background-color: #333;
     color: #e0e0e0;
     border: 2px solid #555;
-    border-radius: 5px;
-    
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
 }
-
-/* Efeito ao passar o mouse */
 .generator-btn:hover {
     background-color: #444;
     border-color: #777;
 }
-
-/* Efeito ao clicar */
 .generator-btn:active {
     background-color: #555;
 }
 
-/* Este é o container para "Qtd" e "MPS" */
-.btn-line-stats {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 5px;
-    font-weight: normal;
-    font-size: 0.9em;
+/* Estilos específicos para os botões de Upgrades */
+.upgrades-grid {
+    display: grid;
+    gap: 10px;
 }
-
-/* Container para a linha do Custo */
-.btn-line-cost {
-    margin-top: 8px;
-    font-weight: bold;
-}
-
-/* Estilo para os botões de upgrade */
 .upgrade-btn {
-    display: block;
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 10px;
-    
-    font-size: 1.1em;
-    font-weight: bold;
-    text-align: left;
-    
-    background-color: #4A3C00; /* Um tom de marrom/dourado escuro */
-    color: #FFD700; /* Dourado */
-    border: 2px solid #8B7A00; /* Borda mais dourada */
-    border-radius: 5px;
-    
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
+    background-color: #4A3C00;
+    color: #FFD700;
+    border: 2px solid #8B7A00;
 }
-
 .upgrade-btn:hover {
     background-color: #5C4B00;
     border-color: #AD9C00;
 }
-
 .upgrade-btn:active {
     background-color: #6E5C00;
 }
 
-/* Responsive Design for Mobile */
-@media (max-width: 768px) {
-    .main-grid {
-        grid-template-columns: 1fr;
-        gap: 20px;
-    }
-    
-    .stats-container h1 {
-        font-size: 2em;
-    }
-    
-    .generators-container h2,
-    .upgrades-container h2 {
-        font-size: 1.5em;
-    }
-}
-
+/* Estilos para o Container de Prestígio (já tinha antes, ajustei um pouco) */
 .prestige-container {
     text-align: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: #2a0033; /* Um roxo escuro para destacar */
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #2a0033;
     border: 1px solid #9900cc;
-    border-radius: 5px;
+    border-radius: 8px;
+}
+
+.prestige-container p {
+    margin: 10px 0;
+    font-size: 1.1em;
 }
 
 .prestige-btn {
     background-color: #9900cc;
     color: white;
-    padding: 8px 15px;
+    padding: 10px 20px;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 15px;
+    transition: background-color 0.2s;
 }
 .prestige-btn:hover {
     background-color: #bb33ee;
+}
+
+/* --- Responsividade (Para telas menores, a sidebar some e vira botões no topo) --- */
+@media (max-width: 768px) {
+    .main-layout-container {
+        flex-direction: column; /* Sidebar e conteúdo empilhados */
+    }
+
+    .sidebar {
+        width: 100%; /* Sidebar ocupa toda a largura */
+        flex-direction: row; /* Botões da sidebar ficam lado a lado */
+        justify-content: space-around; /* Espaça os botões */
+        border-right: none;
+        border-bottom: 1px solid #444;
+        padding: 10px 0;
+    }
+
+    .nav-button {
+        flex-grow: 1; /* Botões crescem para preencher a sidebar */
+        text-align: center;
+        padding: 10px;
+        border-left: none !important; /* Remove o destaque lateral no mobile */
+    }
+    
+    .nav-button.active {
+        border-bottom: 3px solid #FFD700; /* Destaque embaixo no mobile */
+        border-left: none; /* Remove borda esquerda para mobile */
+    }
+
+    .header-display h1 {
+        font-size: 2.2em;
+    }
+    .header-display p {
+        font-size: 1em;
+    }
+
+    .content-area {
+        padding: 15px;
+    }
+}
+
+/*Achievement Area*/
+.achievements-container {
+    display: grid;
+    /* Duas colunas em telas grandes, ou uma só no mobile */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+    gap: 15px;
+    padding: 10px;
+}
+
+.achievement-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+}
+
+.achievement-item:hover {
+    transform: translateY(-2px);
+}
+
+.achievement-icon {
+    font-size: 2.5em;
+    margin-right: 15px;
+    line-height: 1; /* Alinha o ícone */
+}
+
+.achievement-text h3 {
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.achievement-text p {
+    margin: 4px 0 0;
+    font-size: 0.9em;
+    color: #bbb;
+}
+
+/* --- ESTILOS DE ESTADO (Cores) --- */
+
+/* Conquista Não Completada (Locked) */
+.achievement-item.locked {
+    background-color: #2b2b2b;
+    border-left: 5px solid #555; /* Cinza escuro */
+    opacity: 0.7; /* Um pouco apagada */
+}
+
+/* Conquista Completada (Completed) */
+.achievement-item.completed {
+    background-color: #2a3e2a; /* Verde escuro */
+    border-left: 5px solid #4CAF50; /* Verde vibrante */
+    opacity: 1;
+}
+
+.achievement-item.completed .achievement-text p {
+    color: #c9e6c9; /* Texto claro */
 }

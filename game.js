@@ -1,7 +1,7 @@
 let money = 0;
 let moneyPerSec = 1;
 let prestige = 0;
-
+let prestigePrice = 1000000;
 let generators = [
     {
         nome: "Generator 1",
@@ -35,6 +35,57 @@ let generators = [
         upgradePriceBase: 75000,
         upgradeMultiplier: 2,
         quantidade: 0
+    },
+    {
+        nome: "Generator 4",
+        custoBase: 5000,
+        custoAtual: 5000,
+        producaoBase: 100,
+        upgradeLevel: 0,
+        upgradePrice: 150000,
+        upgradePriceBase: 150000,
+        upgradeMultiplier: 2,
+        quantidade: 0
+    },
+    {
+        nome: "Generator 5",
+        custoBase: 10000,
+        custoAtual: 10000,
+        producaoBase: 250,
+        upgradeLevel: 0,
+        upgradePrice: 350000,
+        upgradePriceBase: 350000,
+        upgradeMultiplier: 2,
+        quantidade: 0
+    }
+
+];
+
+let achievements = [
+    {
+        name: 'First Million',
+        id: 'money_milestone_1m',
+        description: 'Get 1000000 money',
+        target: 1000000,
+        type:'money',
+        completed: false
+    },
+    {
+        name: 'Start',
+        id: 'Generator_milestone_10',
+        description: 'Buy 10 first generators',
+        target: 10,
+        type:'generator_amount',
+        generatorIndex: 0,
+        completed: false
+    },
+    {
+        name: 'First Reset',
+        id: 'prestige_first',
+        description: 'Prestige for the first time',
+        target: 1,
+        type: 'prestige_count',
+        completed: false
     }
 
 ];
@@ -73,7 +124,8 @@ function saveGame(){
 loadGame();
 
 setInterval(function(){
-    money += (moneyPerSec);
+    money += (moneyPerSec/20);
+    unlockAchievements();
     atualizarTela();
 }, 50);
 
@@ -83,51 +135,43 @@ setInterval(function(){
 
 function atualizarTela(){
     // Atualiza o display de dinheiro
-    document.getElementById('money-display').innerText = "Money: " + Math.floor(money);
-    document.getElementById('mps-display').innerText = "Per Sec: " + moneyPerSec.toFixed(1);
+    document.getElementById('money-display').innerText = "Money: " + format(money);
+    document.getElementById('mps-display').innerText = "Per Sec: " + format(moneyPerSec);
 
-    // --- Atualiza Botão 0 ---
-    let g0 = generators[0];
-    let g0_mps_atual = g0.producaoBase * Math.pow(g0.upgradeMultiplier, g0.upgradeLevel)* (1 + (0.5 * prestige));
-    document.getElementById('gen-0-qtd').innerText = `(Qtd: ${g0.quantidade})`;
-    document.getElementById('gen-0-mps').innerText = `MPS: ${g0_mps_atual.toFixed(2)}`;
-    document.getElementById('gen-0-cost').innerText = `Price: ${Math.ceil(g0.custoAtual)}`;
+    for(let i = 0; i < generators.length; i++) {
+        let g = generators[i];
+        
+        // Calcula o MPS visual (com bônus de prestígio)
+        let g_mps_atual = g.producaoBase * Math.pow(g.upgradeMultiplier, g.upgradeLevel) * (1 + (0.5 * prestige));
+        let g_total_mps = g_mps_atual * g.quantidade;
+        let idGen = `gen-${i}`;
+        let idUpg = `upg-${i}`;
 
-    // --- Atualiza Botão 1 ---
-    let g1 = generators[1];
-    let g1_mps_atual = g1.producaoBase * Math.pow(g1.upgradeMultiplier, g1.upgradeLevel) * (1 + (0.5 * prestige));
-    document.getElementById('gen-1-qtd').innerText = `(Qtd: ${g1.quantidade})`;
-    document.getElementById('gen-1-mps').innerText = `MPS: ${g1_mps_atual.toFixed(2)}`;
-    document.getElementById('gen-1-cost').innerText = `Price: ${Math.ceil(g1.custoAtual)}`;
+        // Atualiza Gerador
+        if(document.getElementById(`${idGen}-qtd`)) {
+            document.getElementById(`${idGen}-qtd`).innerText = `(Qtd: ${format(g.quantidade)})`; // Opcional formatar qtd
+            document.getElementById(`${idGen}-mps`).innerText = `MPS: ${format(g_mps_atual)}`;
+            document.getElementById(`${idGen}-cost`).innerText = `Price: ${format(g.custoAtual)}`;
+            document.getElementById(`${idGen}-current-mps`).innerText = `Total MPS: ${format(g_total_mps)}`;
+        }
 
-    // --- Atualiza Botão 2 ---
-    let g2 = generators[2];
-    let g2_mps_atual = g2.producaoBase * Math.pow(g2.upgradeMultiplier, g2.upgradeLevel)* (1 + (0.5 * prestige));
-    document.getElementById('gen-2-qtd').innerText = `(Qtd: ${g2.quantidade})`;
-    document.getElementById('gen-2-mps').innerText = `MPS: ${g2_mps_atual.toFixed(2)}`;
-    document.getElementById('gen-2-cost').innerText = `Price: ${Math.ceil(g2.custoAtual)}`;
-
-    // --- Atualizar Botão Upgrade 0 ---
-    let upg0 = generators[0];
-    document.getElementById('upg-0-level').innerText = `(Level: ${upg0.upgradeLevel}) `;
-    document.getElementById('upg-0-bonus').innerText = `x${upg0.upgradeMultiplier} Produção`;
-    document.getElementById('upg-0-cost').innerText = `Custo: ${Math.ceil(upg0.upgradePrice)}`;
-
-    // --- Atualizar Botão Upgrade 1 ---
-    let upg1 = generators[1];
-    document.getElementById('upg-1-level').innerText = `(Level: ${upg1.upgradeLevel})`;
-    document.getElementById('upg-1-bonus').innerText = `x${upg1.upgradeMultiplier} Produção`;
-    document.getElementById('upg-1-cost').innerText = `Custo: ${Math.ceil(upg1.upgradePrice)}`;
-
-    // --- Atualizar Botão Upgrade 2 ---
-    let upg2 = generators[2];
-    document.getElementById('upg-2-level').innerText = `(Level: ${upg2.upgradeLevel})`;
-    document.getElementById('upg-2-bonus').innerText = `x${upg2.upgradeMultiplier} Produção`;
-    document.getElementById('upg-2-cost').innerText = `Custo: ${Math.ceil(upg2.upgradePrice)}`;
+        // Atualiza Upgrade
+        if(document.getElementById(`${idUpg}-level`)) {
+            document.getElementById(`${idUpg}-level`).innerText = `(Level: ${g.upgradeLevel})`;
+            // Nota: Multiplicador (x2, x4) geralmente fica melhor sem o "k", mas pode usar se quiser
+            document.getElementById(`${idUpg}-bonus`).innerText = `x${g.upgradeMultiplier} Produção`;
+            document.getElementById(`${idUpg}-cost`).innerText = `Custo: ${format(g.upgradePrice)}`;
+        }
+    }
 
     // --- Prestige Buttom ---
     let bonusPorcentagem = (prestige * 0.5 * 100).toFixed(0);
-    document.getElementById('prestige-display').innerText = `Prestígio: ${prestige} (Bônus: +${bonusPorcentagem}%)`;
+    let prestigePointsGain = Math.floor(Math.sqrt(money / prestigePrice));
+    document.getElementById('prestige-display').innerText = `Prestígio: ${format(prestige)} (Bônus: +${format(bonusPorcentagem)}%)`;
+    document.getElementById('prestige-gain-display').innerText = `Prestige to receive: ${format(prestigePointsGain)}`;
+
+    // --- Achievements Check ---
+    renderAchievements();
 }
 
 function recalcularMPS() {
@@ -149,6 +193,7 @@ function buyGenerator(index){
         g.quantidade++;
         g.custoAtual = g.custoBase * Math.pow(1.15 + (index/100), g.quantidade);
         recalcularMPS();
+        unlockAchievements();
         saveGame();
     }
 }
@@ -165,7 +210,6 @@ function buyUpgradeGenerator(index){
 }
 
 function buyPrestige(){
-    let prestigePrice = 1000000;
     if(money < prestigePrice){
         alert('You need ' + prestigePrice);
         return;
@@ -187,6 +231,66 @@ function buyPrestige(){
         
         recalcularMPS();
         atualizarTela();
+        unlockAchievements();
         saveGame();
     }
+}
+//Formatar valores para 1k, 1.2M...
+const formatter = new Intl.NumberFormat('en-US', {
+  notation: 'compact',
+  compactDisplay: 'short',
+  maximumFractionDigits: 2
+});
+
+function format(num){
+    if (num < 1 && num > 0) return num.toFixed(2); // Ex: 0.12
+    if (num === 0) return "0";
+    return formatter.format(num);
+}
+
+function unlockAchievements(){
+    achievements.forEach(ach=>{
+        let conditionMet = false;
+        switch(ach.type){
+            case'money':
+                if(money >=ach.target){
+                    conditionMet = true;
+                }break;
+            case'generator_amount':
+                if(generators[ach.generatorIndex].quantidade >= ach.target){
+                    conditionMet = true;
+                }break;
+            case 'prestige_count':
+                if (prestige >= ach.target) {
+                    conditionMet = true;
+                }
+                break;
+        }
+        if (conditionMet) {
+            ach.completed = true;
+            console.log(`Conquista Desbloqueada: ${ach.name}`); 
+        }
+    });
+}
+function renderAchievements() {
+    const container = document.querySelector('.achievements-container');
+    if (!container) return; // Sai se a seção não estiver visível/pronta
+    
+    container.innerHTML = ''; // Limpa o container
+
+    achievements.forEach(ach => {
+        const statusClass = ach.completed ? 'completed' : 'locked';
+        const icon = ach.completed ? '🏆' : '🔒';
+
+        const itemHTML = `
+            <div class="achievement-item ${statusClass}">
+                <div class="achievement-icon">${icon}</div>
+                <div class="achievement-text">
+                    <h3>${ach.name}</h3>
+                    <p>${ach.description}</p>
+                </div>
+            </div>
+        `;
+        container.innerHTML += itemHTML;
+    });
 }
