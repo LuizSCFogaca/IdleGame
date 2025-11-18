@@ -163,3 +163,24 @@ body {
         font-size: 1.5em;
     }
 }
+
+.prestige-container {
+    text-align: center;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #2a0033; /* Um roxo escuro para destacar */
+    border: 1px solid #9900cc;
+    border-radius: 5px;
+}
+
+.prestige-btn {
+    background-color: #9900cc;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+.prestige-btn:hover {
+    background-color: #bb33ee;
+}
