@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Idle Game</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="game-container">
+        <!-- Stats Header - Middle Top -->
+        <div class="stats-container">
+            <h1 id="money-display">Money: 0</h1>
+            <p id="mps-display">Per Sec: 0.0</p>
+        </div>
+
+        <!-- Main Grid Layout -->
+        <div class="main-grid">
+            <!-- Generators - Left Side -->
+            <div class="generators-container">
+                <h2>Generators</h2>
+                
+                <button id="gen-0-btn" class="generator-btn" onclick="buyGenerator(0)">
+                    <div>Buy Generator 1</div>
+                    
+                    <div class="btn-line-stats">
+                        <span id="gen-0-qtd">(Qtd: 0)</span>
+                        <span id="gen-0-mps">MPS: 1</span>
+                    </div>
+
+                    <div class="btn-line-cost">
+                        <span id="gen-0-cost">Price: 10</span>
+                    </div>
+                </button>
+
+                <button id="gen-1-btn" class="generator-btn" onclick="buyGenerator(1)">
+                    <div>Buy Generator 2</div>
+                    
+                    <div class="btn-line-stats">
+                        <span id="gen-1-qtd">(Qtd: 0)</span>
+                        <span id="gen-1-mps">MPS: 10</span>
+                    </div>
+
+                    <div class="btn-line-cost">
+                        <span id="gen-1-cost">Price: 100</span>
+                    </div>
+                </button>
+                
+                <button id="gen-2-btn" class="generator-btn" onclick="buyGenerator(2)">
+                    <div>Buy Generator 3</div>
+                    
+                    <div class="btn-line-stats">
+                        <span id="gen-2-qtd">(Qtd: 0)</span>
+                        <span id="gen-2-mps">MPS: 50</span>
+                    </div>
+
+                    <div class="btn-line-cost">
+                        <span id="gen-2-cost">Price: 1000</span>
+                    </div>
+                </button>
+            </div>
+            
+            <!-- Upgrades - Right Side -->
+            <div class="upgrades-container">
+                <h2>Upgrades</h2>
+
+                <button id="upg-0-btn" class="upgrade-btn" onclick="buyUpgradeGenerator(0)">
+                    <div>Upgrade Generator 1</div>
+                    <div class="btn-line-stats">
+                        <span id="upg-0-level">(Level: 0)</span>
+                        <span id="upg-0-bonus">x2 Produção</span>
+                    </div>
+                    <div class="btn-line-cost">
+                        <span id="upg-0-cost">Custo: 250</span>
+                        <span id="upg-0-req">Req: 10 Gen1</span>
+                    </div>
+                </button>
+
+                <button id="upg-1-btn" class="upgrade-btn" onclick="buyUpgradeGenerator(1)">
+                    <div>Upgrade Generator 2</div>
+                    <div class="btn-line-stats">
+                        <span id="upg-1-level">(Level: 0)</span>
+                        <span id="upg-1-bonus">x2 Produção</span>
+                    </div>
+                    <div class="btn-line-cost">
+                        <span id="upg-1-cost">Custo: 5000</span>
+                        <span id="upg-1-req">Req: 10 Gen2</span>
+                    </div>
+                </button>
+
+                <button id="upg-2-btn" class="upgrade-btn" onclick="buyUpgradeGenerator(2)">
+                    <div>Upgrade Generator 3</div>
+                    <div class="btn-line-stats">
+                        <span id="upg-2-level">(Level: 0)</span>
+                        <span id="upg-2-bonus">x2 Produção</span>
+                    </div>
+                    <div class="btn-line-cost">
+                        <span id="upg-2-cost">Custo: 75000</span>
+                        <span id="upg-2-req">Req: 10 Gen3</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="game.js"></script>
+</body>
+</html>

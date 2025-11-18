@@ -1,0 +1,165 @@
+/* Estilo global e tema escuro */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #121212;
+    color: #e0e0e0;
+    margin: 0;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+/* Container principal do jogo */
+.game-container {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    padding: 20px;
+}
+
+/* Display de dinheiro e MPS - Center Top */
+.stats-container {
+    text-align: center;
+    border-bottom: 2px solid #444;
+    padding-bottom: 15px;
+    margin-bottom: 30px;
+}
+
+.stats-container h1 {
+    margin: 0;
+    font-size: 2.5em;
+    color: #4CAF50; /* Verde */
+    text-shadow: 0 0 15px rgba(76, 175, 80, 0.5);
+}
+
+.stats-container p {
+    margin: 5px 0 0;
+    font-size: 1.2em;
+    color: #aaa;
+}
+
+/* Main Grid Layout - Generators Left, Upgrades Right */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+/* Generators Container - Left Side */
+.generators-container {
+    padding: 0;
+}
+
+.generators-container h2 {
+    color: #e0e0e0;
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    text-align: left;
+}
+
+/* Upgrades Container - Right Side */
+.upgrades-container {
+    padding: 0;
+}
+
+.upgrades-container h2 {
+    color: #FFD700; /* Dourado para upgrades */
+    margin-bottom: 15px;
+    font-size: 1.8em;
+    text-align: left;
+}
+
+/* Botões dos geradores */
+.generator-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: left;
+    
+    background-color: #333;
+    color: #e0e0e0;
+    border: 2px solid #555;
+    border-radius: 5px;
+    
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+/* Efeito ao passar o mouse */
+.generator-btn:hover {
+    background-color: #444;
+    border-color: #777;
+}
+
+/* Efeito ao clicar */
+.generator-btn:active {
+    background-color: #555;
+}
+
+/* Este é o container para "Qtd" e "MPS" */
+.btn-line-stats {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+    font-weight: normal;
+    font-size: 0.9em;
+}
+
+/* Container para a linha do Custo */
+.btn-line-cost {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+/* Estilo para os botões de upgrade */
+.upgrade-btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    
+    font-size: 1.1em;
+    font-weight: bold;
+    text-align: left;
+    
+    background-color: #4A3C00; /* Um tom de marrom/dourado escuro */
+    color: #FFD700; /* Dourado */
+    border: 2px solid #8B7A00; /* Borda mais dourada */
+    border-radius: 5px;
+    
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.upgrade-btn:hover {
+    background-color: #5C4B00;
+    border-color: #AD9C00;
+}
+
+.upgrade-btn:active {
+    background-color: #6E5C00;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .stats-container h1 {
+        font-size: 2em;
+    }
+    
+    .generators-container h2,
+    .upgrades-container h2 {
+        font-size: 1.5em;
+    }
+}
