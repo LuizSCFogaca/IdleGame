@@ -7,6 +7,7 @@ let generators = [
         nome: "Generator 1",
         custoBase: 10,
         custoAtual: 10,
+        cost10: 0,
         producaoBase: 1,
         upgradeLevel: 0,
         upgradePrice: 250,
@@ -18,6 +19,7 @@ let generators = [
         nome: "Generator 2",
         custoBase: 100,
         custoAtual: 100,
+        cost10: 0,
         producaoBase: 10,
         upgradeLevel: 0,
         upgradePrice: 5000,
@@ -29,6 +31,7 @@ let generators = [
         nome: "Generator 3",
         custoBase: 1000,
         custoAtual: 1000,
+        cost10: 0,
         producaoBase: 50,
         upgradeLevel: 0,
         upgradePrice: 75000,
@@ -40,6 +43,7 @@ let generators = [
         nome: "Generator 4",
         custoBase: 5000,
         custoAtual: 5000,
+        cost10: 0,
         producaoBase: 100,
         upgradeLevel: 0,
         upgradePrice: 150000,
@@ -51,6 +55,7 @@ let generators = [
         nome: "Generator 5",
         custoBase: 10000,
         custoAtual: 10000,
+        cost10: 0,
         producaoBase: 250,
         upgradeLevel: 0,
         upgradePrice: 350000,
@@ -139,6 +144,7 @@ function atualizarTela(){
     document.getElementById('mps-display').innerText = "Per Sec: " + format(moneyPerSec);
 
     for(let i = 0; i < generators.length; i++) {
+
         let g = generators[i];
         
         // Calcula o MPS visual (com bônus de prestígio)
@@ -146,6 +152,12 @@ function atualizarTela(){
         let g_total_mps = g_mps_atual * g.quantidade;
         let idGen = `gen-${i}`;
         let idUpg = `upg-${i}`;
+
+        g.cost10 = 0;
+        let rate = 1.15 + (i / 100);
+        for (let j = 0; j < 10; j++) {
+            g.cost10 += g.custoBase * Math.pow(rate, g.quantidade + j);
+        }
 
         // Atualiza Gerador
         if(document.getElementById(`${idGen}-qtd`)) {
@@ -161,6 +173,10 @@ function atualizarTela(){
             // Nota: Multiplicador (x2, x4) geralmente fica melhor sem o "k", mas pode usar se quiser
             document.getElementById(`${idUpg}-bonus`).innerText = `x${g.upgradeMultiplier} Produção`;
             document.getElementById(`${idUpg}-cost`).innerText = `Custo: ${format(g.upgradePrice)}`;
+        }
+        // Comprar 10 Gen
+        if(document.getElementById(`${idGen}-cost10`)) {
+            document.getElementById(`${idGen}-cost10`).innerText = format(g.cost10);
         }
     }
 
@@ -195,6 +211,15 @@ function buyGenerator(index){
         recalcularMPS();
         unlockAchievements();
         saveGame();
+    }
+}
+
+function buy10Generator(index){
+    let g = generators[index];
+    if(money >= g.cost10){
+        for(let i = 0; i <10; i++){
+            buyGenerator(index);
+        }
     }
 }
 
