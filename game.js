@@ -2,6 +2,8 @@ let money = 0;
 let moneyPerSec = 1;
 let prestige = 0;
 let prestigePrice = 1000000;
+let rebirth = 0;
+let rebirthPrice = 1000;
 let generators = [
     {
         nome: "Generator 1",
@@ -101,7 +103,8 @@ function loadGame(){
         const data = JSON.parse(savedData);
         money = data.money || 0;
         moneyPerSec = data.moneyPerSec || 1;
-        prestige = data.prestige || 0
+        prestige = data.prestige || 0;
+        rebirth = data.rebirth || 0;
         if(data.generators){
             for(let i = 0; i < generators.length; i++){
                 if(data.generators[i]){
@@ -120,6 +123,7 @@ function saveGame(){
         money: money,
         moneyPerSec: moneyPerSec,
         prestige: prestige,
+        rebirth: rebirth,
         generators: generators
     };
     localStorage.setItem('idleGameSave', JSON.stringify(saveData));
@@ -129,7 +133,7 @@ function saveGame(){
 loadGame();
 
 setInterval(function(){
-    money += (moneyPerSec/20);
+    money += (moneyPerSec /20);
     unlockAchievements();
     atualizarTela();
 }, 50);
@@ -181,10 +185,17 @@ function atualizarTela(){
     }
 
     // --- Prestige Buttom ---
-    let bonusPorcentagem = (prestige * 0.5 * 100).toFixed(0);
-    let prestigePointsGain = Math.floor(Math.sqrt(money / prestigePrice));
-    document.getElementById('prestige-display').innerText = `Prestígio: ${format(prestige)} (Bônus: +${format(bonusPorcentagem)}%)`;
+    let bonusPorcentagemPrestige = (prestige * 0.5 * 100).toFixed(0);
+    let prestigePointsGain = Math.floor(Math.sqrt(money / prestigePrice) * (1+ (rebirth * 0.1)));
+    document.getElementById('prestige-display').innerText = `Prestige: ${format(prestige)} (Bonus: +${format(bonusPorcentagemPrestige)}% Money)`;
     document.getElementById('prestige-gain-display').innerText = `Prestige to receive: ${format(prestigePointsGain)}`;
+
+
+    // ---Rebirth Buttom ---
+    let bonusPorcentageRebith = (rebirth * 0.1 * 100).toFixed(0);
+    let rebirthPointsGain = Math.floor(Math.sqrt(prestige / rebirthPrice));
+    document.getElementById('rebirth-display').innerText = `Rebirth: ${format(rebirth)} (Bonus: +${format(bonusPorcentageRebith)}% Prestige)`;
+    document.getElementById('rebirth-gain-display').innerText = `Rebirth to receive: ${format(rebirthPointsGain)}`;
 
     // --- Achievements Check ---
     renderAchievements();
@@ -236,11 +247,10 @@ function buyUpgradeGenerator(index){
 
 function buyPrestige(){
     if(money < prestigePrice){
-        alert('You need ' + prestigePrice);
         return;
     }
-    let prestigePointsGain = Math.floor(Math.sqrt(money / prestigePrice))
-    if(confirm('Will you reset your game a receive ' + prestigePointsGain + ' Prestige Points')){
+    let prestigePointsGain = Math.floor(Math.sqrt(money / prestigePrice) * (1 + (rebirth * 0.1)));
+    if(confirm('Will you reset your game to receive ' + prestigePointsGain + ' Prestige Points')){
         money -= prestigePrice; 
         prestige += prestigePointsGain;
 
@@ -260,6 +270,32 @@ function buyPrestige(){
         saveGame();
     }
 }
+
+function buyRebirth(){
+    if(prestige < 1000){
+        return;
+    }
+    let rebirthPointsGain = Math.floor(Math.sqrt(prestige / rebirthPrice));
+    if(confirm('Will you reset all your money and prestige to receive ' + rebirthPointsGain + ' Rebirth Points')){
+        money = 0;
+        moneyPerSec = 1;
+        prestige = 0;
+        rebirth += rebirthPointsGain;
+
+        for(let g of generators){
+            g.quantidade = 0;
+            g.upgradeLevel = 0;
+            g.custoAtual = g.custoBase;
+            g.upgradePrice = g.upgradePriceBase;
+        }
+        recalcularMPS();
+        atualizarTela();
+        unlockAchievements();
+        saveGame();
+    }
+}
+
+
 //Formatar valores para 1k, 1.2M...
 const formatter = new Intl.NumberFormat('en-US', {
   notation: 'compact',
@@ -318,4 +354,28 @@ function renderAchievements() {
         `;
         container.innerHTML += itemHTML;
     });
+}
+
+function addPrestige(){
+    prestige++; 
+    recalcularMPS();
+    atualizarTela();
+    unlockAchievements();
+    saveGame();
+}
+
+function addRebirth(){
+    rebirth++;
+    recalcularMPS();
+    atualizarTela();
+    unlockAchievements();
+    saveGame();
+}
+
+function addMoney(){
+    money = money + 1000000;
+    recalcularMPS();
+    atualizarTela();
+    unlockAchievements();
+    saveGame();
 }

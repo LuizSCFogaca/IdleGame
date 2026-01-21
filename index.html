@@ -21,6 +21,7 @@
                 <button class="nav-button active" onclick="showSection('generators')">Generators</button>
                 <button class="nav-button" onclick="showSection('upgrades')">Upgrades</button>
                 <button class="nav-button" onclick="showSection('prestige')">Prestige</button>
+                <button class="nav-button" onclick="showSection('rebirth')">Rebirth</button>
                 <button class="nav-button" onclick="showSection('achievements')">Achievements</button>
                 <button class="nav-button" onclick="showSection('menu')">Menu</button>
                 </div>
@@ -175,16 +176,34 @@
                 <div id="prestige-section" class="content-section hidden">
                     <h2>Prestígio</h2>
                     <div class="prestige-container">
-                        <p id="prestige-display">Prestígio Atual: 0 (Bônus: +0%)</p>
-                        <p id="prestige-gain-display" style="color: #00ff00; font-weight: bold;">Ao resetar você ganha: +0 Pontos</p>
-                        <button onclick="buyPrestige()" class="prestige-btn">RESETAR (Requer 1M)</button>
+                        <p id="prestige-display">Prestige: 0 (Money Bonus: +0%)</p>
+                        <p id="prestige-gain-display" style="color: #00ff00; font-weight: bold;">Reset to gain: +0 Prestige</p>
+                        <button onclick="buyPrestige()" class="prestige-btn">RESET (REQUIRE 1M MONEY)</button>
                     </div>
                 </div>
-                
+
+                <div id="rebirth-section" class="content-section hidden">
+                    <h2>Rebirth</h2>
+                    <div class="rebirth-container">
+                        <p id="rebirth-display">Rebirth: 0 (Prestige Bonus: +0%)</p>
+                        <p id="rebirth-gain-display" style="color: #0385a5; font-weight: bold;">Reset to gain: +0 rebirth</p>
+                        <button onclick="buyRebirth()" class="rebirth-btn">RESET (REQUIRE 1K PP)</button>
+                    </div>
+                </div>
+
                 <div id="menu-section" class="content-section hidden">
                     <h2>Menu</h2>
                     <button onclick="hardReset()" style="background: red; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
-                        ⚠️ HARD RESET (Limpar Save)
+                        ⚠️ HARD RESET
+                    </button>
+                    <button onclick="addPrestige()"style="background: red; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        ⚠️ ADD PRESTIGE
+                    </button>
+                    <button onclick="addRebirth()"style="background: red; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        ⚠️ ADD REBIRTH
+                    </button>
+                    <button onclick="addMoney()"style="background: red; color: white; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                        ⚠️ ADD MONEY
                     </button>
                 </div>
 
@@ -204,7 +223,7 @@
                             <div class="achievement-icon">🔒</div>
                             <div class="achievement-text">
                                 <h3>Start</h3>
-                                <p>Buy 10 of each 1, 2, 3 Generators</p>
+                                <p>Buy 10 first generator</p>
                             </div>
                         </div>
                         
