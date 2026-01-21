@@ -225,6 +225,37 @@ body {
     background-color: #bb33ee;
 }
 
+.rebirth-container {
+    text-align: center;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #0b0033;
+    border: 1px solid #0081cc;
+    border-radius: 8px;
+}
+
+.rebirth-container p {
+    margin: 10px 0;
+    font-size: 1.1em;
+}
+
+.rebirth-btn {
+    background-color: #008bcc;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-top: 15px;
+    transition: background-color 0.2s;
+}
+.rebirth-btn:hover {
+    background-color: #33b9ee;
+}
+
+
 /* --- Responsividade (Para telas menores, a sidebar some e vira botões no topo) --- */
 @media (max-width: 768px) {
     .main-layout-container {
